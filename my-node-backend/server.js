@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const taskRoutes = require('./routes/tasks');
+const passport = require("passport");
+// const taskRoutes = require('./routes/tasks');
 const app = express();
 const port = 3000;
 
@@ -16,9 +17,13 @@ mongoose.connect('mongodb://127.0.0.1:27017/mydb', {
     console.error('MongoDB connection error:', error);
 });
 
+require("./models/user");
+require("./config/passport")(passport);
+
 app.use(cors()); //Enable CORS
 app.use(express.json());
-app.use('/tasks', taskRoutes);
+// app.use('/tasks', taskRoutes);
+app.use(require("./routes"));
 app.get('/', (req, res) => {
     res.send('Hello from Express!');
 });
