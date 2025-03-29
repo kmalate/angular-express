@@ -44,7 +44,7 @@ function genPassword(password) {
 */
 function issueJWT(user) {
     const _id = user._id;
-    const expiresIn = "1d";
+    const expiresIn = 300;
 
     const payload =  {
         sub: _id,
@@ -56,7 +56,7 @@ function issueJWT(user) {
     );
 
     return {
-        token: "Bearer" + signedToken,
+        token: "Bearer " + signedToken,
         expiresIn: expiresIn
     };
 }

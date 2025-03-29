@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { ApiService } from './api.service';
+import { AuthService } from './services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, RouterModule, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -12,7 +14,16 @@ export class AppComponent implements OnInit {
   title = 'my-angular-app';
   tasks: any[] = [];
   // message: string = '';
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private authService: AuthService) {}
+
+  isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
+
+  logOut() {
+    this.authService.logout();
+  }
+
   ngOnInit(): void {
     this.fetchTaks();
     // this.apiService.getMessage().subscribe(
