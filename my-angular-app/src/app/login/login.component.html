@@ -1,11 +1,30 @@
-<h2>Login</h2>
-
-<form (ngSubmit)="onLoginSubmit()" #loginForm="ngForm">
-    <div>
-        <p>Username</p>
-        <input type="text" name ="username" ngModel />
-        <p>Password</p>
-        <input type="password" name="password" ngModel />
+<div class="container-sm">
+    <div class="row justify-content-center">
+        <div class="col-sm-2">
+            <h3>Login</h3>
+        </div>        
     </div>
-    <button type="submit" id="btnLogin">Login</button>
-</form>
+    <form (ngSubmit)="onLoginSubmit()" #loginForm="ngForm">
+        <div class="row justify-content-center mt-4">
+            <div class="col-sm-2 text-center">
+                <label for="userName" class="align-middle">User Name</label>
+            </div>            
+            <div class="col-sm-3">
+                <input type="text" id="userName" name="username" class="form-control" ngModel/>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-4">
+            <div class="col-sm-2 text-center">
+                <label for="password">Password</label>
+            </div>
+            <div class="col-sm-3">
+                <input id="password" type="password" name="password" class="form-control" ngModel />
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-sm-4">
+                <button type="submit" id="btnLogin" class="btn btn-primary">Login</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,1 +1,5 @@
-<p>Message: {{ message }}</p>
+<div class="container">
+    <div class="row">
+        <div class="alert" role="alert" [ngClass]="{'alert-success': isSuccess, 'alert-warning': !isSuccess}">Message: {{ message }}</div>
+    </div>
+</div>
