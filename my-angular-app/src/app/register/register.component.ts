@@ -1,18 +1,24 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { IUser } from '../shared/models/user.model';
+import { IResponse } from '../shared/models/response.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   @ViewChild("registerForm", {static: false}) registerForm!: NgForm;
+  response: IResponse | null = null;
 
   constructor(private userService: UserService) {}
+  ngOnInit(): void {
+    this.response = null;
+  }
 
   onRegisterSubmit() {
     const user:IUser =  { 
@@ -23,13 +29,10 @@ export class RegisterComponent {
     this.userService.register(user).subscribe(
       {
         next: (response) => {
-          console.log(response);
+          this.response = response;
         },
         error: (error) => {
-          console.log(error);
-        },
-        complete: () => {
-          console.log('done!');
+          this.response = error.error;
         }
       }
     );

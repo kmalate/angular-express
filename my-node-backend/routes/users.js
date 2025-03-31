@@ -24,6 +24,7 @@ router.post("/login", (req, res, next) => {
     
                     res.status(200).json({
                         success: true,
+                        msg: "Login Successful",
                         token: tokenObject.token,
                         expiresIn: tokenObject.expiresIn
                     });
@@ -39,25 +40,47 @@ router.post("/login", (req, res, next) => {
 });
 
 // users/register
-router.post("/register", (req, res, next) => {
-    const saltHash = utils.genPassword(req.body.password);
+router.post("/register", async (req, res, next) => {
+    let response = {
+        success : true,
+        msg : ""
+    };
 
-    const salt = saltHash.salt;
-    const hash = saltHash.hash;
-
-    const newUser = new User({
-        userName: req.body.userName,
-        hash: hash,
-        salt: salt
-    });
-
-    try {
-        newUser.save().then((user) => {
-            res.json({ success: true, user: user});
-        });
-    } catch (err) {
-        res.json({success: false, msg: err })
+    //VALIDATIONS
+    if (!req.body || !req.body.password || !req.body.userName)
+    {
+        response.success = false;
+        response.msg = "User Name and Password is required";    
+    } else if (req.body || req.body.userName) {
+        req.body.userName = req.body.userName.toLowerCase();
+        const user = await User.findOne({userName: req.body.userName})
+        if (user) {
+            //don't insert duplicates
+            response.success = false;
+            response.msg = `User Name: ${user.userName} already exists`;                         
+        }       
     }
+
+    if (response.success) {
+        const saltHash = utils.genPassword(req.body.password);
+        const salt = saltHash.salt;
+        const hash = saltHash.hash;
+
+        const newUser = new User({
+            userName: req.body.userName,
+            hash: hash,
+            salt: salt
+        });
+
+        try {
+            _ = await newUser.save();
+            response = { success: true, msg:"New User Successfully Saved"};
+        } catch (err) {
+            response = {success: false, msg: err }
+        }   
+    }
+
+    res.json(response);
 });
 
 router.get(

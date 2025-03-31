@@ -29,3 +29,11 @@
         </div>
     </div>
 </form>
+<div class="row justify-content-center mt-4" *ngIf="response">
+    <div class="col-sm-4">
+        <div class="alert" 
+        [ngClass]="{'alert-success': response.success, 'alert-danger': !response.success}">
+        {{response.msg}}
+    </div>
+    </div>
+</div>

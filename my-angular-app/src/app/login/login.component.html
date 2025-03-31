@@ -1,4 +1,4 @@
-<div class="container-sm">
+<div class="container-sm">   
     <div class="row justify-content-center">
         <div class="col-sm-2">
             <h3>Login</h3>
@@ -27,4 +27,12 @@
             </div>
         </div>
     </form>
+    <div class="row justify-content-center mt-4" *ngIf="response">
+        <div class="col-sm-4">
+            <div class="alert" 
+            [ngClass]="{'alert-success': response.success, 'alert-danger': !response.success}">
+            {{response.msg}}
+        </div>
+        </div>
+    </div>
 </div>
